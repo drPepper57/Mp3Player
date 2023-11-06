@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="root" alignment="CENTER" minWidth="640.0" prefHeight="260.0" prefWidth="700.0" stylesheets="@../../../style/app.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pepper.mediaplayerone.PrimaryController">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <TabPane prefHeight="200.0" prefWidth="420.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Playlist">
+                  <content>
+                        <ScrollPane fx:id="scrollPane" style="-fx-background-color: rgba(0,0,0,1);">
+                           <content>
+                              <VBox fx:id="playListVBox" prefHeight="176.0">
+                                 <padding>
+                                    <Insets left="5.0" top="5.0" />
+                                 </padding>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
+                  </content>
+                </Tab>
+                <Tab text="Favourites">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+            <MediaView fx:id="mv" fitHeight="200.0" fitWidth="10.0" />
+            <Label prefWidth="250.0" text="( ᴗ͈ˬᴗ͈)ഒ" textFill="WHITE">
+               <font>
+                  <Font size="60.0" />
+               </font>
+            </Label>
+            <VBox alignment="CENTER" prefWidth="50.0">
+               <children>
+                  <VBox fx:id="volMsg" maxWidth="25.0" onMouseEntered="#volToScroll" onMouseExited="#scrollToVol" prefWidth="35.0">
+                     <children>
+                        <VBox fx:id="vol" alignment="TOP_CENTER" prefHeight="200.0">
+                           <children>
+                              <Label fx:id="v" text="V">
+                                 <font>
+                                    <Font name="System Bold" size="21.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="o" text="O">
+                                 <font>
+                                    <Font name="System Bold" size="21.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="l" onScroll="#setScrollVolume" text="L">
+                                 <font>
+                                    <Font name="System Bold" size="21.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="u" text="U">
+                                 <font>
+                                    <Font name="System Bold" size="21.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="m" onScroll="#setScrollVolume" text="M">
+                                 <font>
+                                    <Font name="System Bold" size="21.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="e" text="E">
+                                 <font>
+                                    <Font name="System Bold" size="21.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <ProgressBar fx:id="progressBar" prefHeight="13.0" prefWidth="796.0" progress="0.0" />
+      
+      <HBox fx:id="controls" alignment="BASELINE_RIGHT" prefWidth="900.0" spacing="10.0">
+         <children>
+            <Button fx:id="playBtn" mnemonicParsing="false" onAction="#playMedia" prefWidth="40.0" text="▶" />
+            <Button fx:id="pauseBtn" mnemonicParsing="false" onAction="#pauseMedia" prefWidth="40.0" text="⏸▷" />
+            <Button fx:id="stopBtn" mnemonicParsing="false" onAction="#stopMedia" text="◼" />
+            <Button fx:id="reBtn" mnemonicParsing="false" onAction="#previousMedia" text="⏮" />
+            <Button fx:id="forwBtn" mnemonicParsing="false" onAction="#nextMedia" text="⏭" />
+            <Button mnemonicParsing="false" onAction="#loadMedia" text="Load" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>

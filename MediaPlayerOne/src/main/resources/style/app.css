@@ -1,0 +1,62 @@
+#root {
+    -fx-background-color: #2b2d42;
+}
+
+Label {
+    -fx-text-fill: white;
+    
+}
+#playListVBox {
+    -fx-background-color: #8d99ae ;
+}
+#playListVBox > Label:hover {
+    -fx-text-fill: rgb(100,100,125);
+}
+
+#scrollPane > .viewport {
+    -fx-background-color:  #8d99ae;
+}
+#volMsg {
+   /*-fx-background-color: linear-gradient(to top,  rgb(30,30,85), #8d99ae 90%, transparent 100%);*/
+}
+#controls {
+    -fx-background-color: #8d99ae;    
+}
+
+.tab-content-area {
+    -fx-background-color: #8d99ae; /* Background color of the content area */
+}
+.tab-header-area .tab-header-background{
+    -fx-background-color: -fx-primary-color; /* Background color of the tab header area */
+}
+.tab-pane .tab {
+    -fx-background-color: rgb(60,60,85);
+    -fx-background-radius: 8 8 0 0;
+}
+.tab-pane .tab:selected {
+    -fx-border-color: rgba(70, 70, 90, 0.01) rgba(70, 70, 90, 0.01) rgba(70, 70, 90, 0.01) rgba(70, 70, 90, 0.01);
+    
+    -fx-background-color: #8d99ae;        
+    -fx-background-insets: 0 0 0 0;
+}
+.tab .tab-label { 
+ 	-fx-alignment: CENTER;
+	-fx-text-fill: white;
+	-fx-font-weight: bold;
+}
+.tab-pane {
+	-fx-background-color: transparent;
+	-fx-tab-min-width: 60px;
+	-fx-tab-min-height: 15px;
+	-fx-tab-max-height: 20px;
+}
+
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 2023. nov. 5., 12:36:21
+    Author     : nagyd
+*/
+

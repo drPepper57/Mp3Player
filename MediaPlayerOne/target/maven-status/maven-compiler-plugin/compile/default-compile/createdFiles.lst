@@ -1,0 +1,11 @@
+com\pepper\mediaplayerone\App.class
+com\pepper\mediaplayerone\DoubleClickEvent.class
+model\MediaFile.class
+com\pepper\WishList\gui\AddLabel.class
+com\pepper\mediaplayerone\PrimaryController$1.class
+com\pepper\mediaplayerone\PlayListController.class
+com\pepper\mediaplayerone\PrimaryController.class
+module-info.class
+com\pepper\WishList\gui\PopUpMessage$1.class
+com\pepper\WishList\gui\PopUpMessage.class
+com\pepper\mediaplayerone\SecondaryController.class
