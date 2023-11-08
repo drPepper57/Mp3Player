@@ -1,7 +1,6 @@
 package com.pepper.mediaplayerone;
 
-import com.pepper.WishList.gui.AddLabel;
-import com.pepper.WishList.gui.PopUpMessage;
+import model.MediaFile;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
@@ -19,13 +18,12 @@ import javafx.stage.Window;
 import javafx.util.Duration;
 import static com.pepper.mediaplayerone.DoubleClickEvent.DoubleClickEvent;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Collections;
 import javafx.animation.PauseTransition;
-import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 
 public class PrimaryController implements Initializable
 {
@@ -34,7 +32,7 @@ public class PrimaryController implements Initializable
     @FXML
     private Button playBtn, pauseBtn, stopBtn, reBtn, forwBtn;
     @FXML
-    private VBox playListVBox, vol, volMsg;
+    private VBox playListVBox, vol, volMsg, root;
     @FXML
     private ProgressBar progressBar;
     @FXML
@@ -42,7 +40,8 @@ public class PrimaryController implements Initializable
     
     
     private static double counter = 0;
-    private List<File> playlist;
+    private List<File> playlist, tempList;
+    public static int index = 0;
     public static int currentIndex;
     private Media media;
     private FileChooser fileChooser;
@@ -56,11 +55,39 @@ public class PrimaryController implements Initializable
         currentIndex = 0;
         playlist = new ArrayList<>();
         
+        root.setOnDragOver(event->{
+            if(event.getGestureSource() != root && event.getDragboard().hasFiles())
+            {
+                event.acceptTransferModes(TransferMode.COPY);
+            }
+        });
+        
+        root.setOnDragDropped(event ->{
+            Dragboard dragboard = event.getDragboard();
+            if(dragboard.hasFiles())
+            {
+                System.out.println("van de szar");
+                int index = 0;
+                dragboard.getFiles().forEach(file -> {
+                    playlist.add(file);
+                });
+                
+                loadDragNDropFiles();
+                event.setDropCompleted(true);
+            } else {
+                System.out.println("has not files");
+                event.setDropCompleted(false);
+            }
+            event.consume();
+        });
     }
     
     public void playMedia() //play button function
     {
-        selectedFile = playlist.get(currentIndex);
+        if(!playlist.isEmpty()){
+            selectedFile = playlist.get(currentIndex);
+        }
+        
         if (selectedFile != null) 
         {
             
@@ -118,9 +145,8 @@ public class PrimaryController implements Initializable
             }            
         }
     }
-    
-    @FXML
-    private void loadMedia() // load button function
+        
+    public void loadMedia() // load button function
     {
         fileChooser = new FileChooser();
         fileChooser.setTitle("Open media File");
@@ -131,21 +157,20 @@ public class PrimaryController implements Initializable
 
         stage = mv.getScene().getWindow(); // Get the window associated with the MediaView
         
-        List<File> puffer = fileChooser.showOpenMultipleDialog(stage);
-        if(puffer != null)
-        {
-            playlist.addAll(puffer);
-        }        
+        List<File> puffer = new ArrayList<>();
+        puffer = fileChooser.showOpenMultipleDialog(stage);
         
-        playListVBox.getChildren().clear();
-        int index = 0;
+        if(puffer != null && !puffer.isEmpty()){
+            playlist.addAll(puffer);
+        }
+        
+        playListVBox.getChildren().clear();        
         if(!playlist.isEmpty())
         {
             for(File file : playlist)
             {
-
-                AddLabel label = new AddLabel(file.getName(), playListVBox, file.toURI().toString(), index);
-                label.addEventHandler(DoubleClickEvent, event->
+                MediaFile mf = new MediaFile(file.getName(), playListVBox, file.toURI().toString(), index);
+                mf.addEventHandler(DoubleClickEvent, event->
                 {
                     playClickedMedia(file.toURI().toString());
                 });
@@ -153,6 +178,42 @@ public class PrimaryController implements Initializable
             }
         }
         
+    }
+    
+    
+    public void loadDragNDropFiles()
+    {
+        if(!playlist.isEmpty())
+        {
+            System.out.println("loadDragNdropfiles list not empty");
+            for(File file : playlist)
+            {
+                MediaFile mf = new MediaFile(file.getName(), playListVBox, file.toURI().toString(), index);
+                mf.addEventHandler(DoubleClickEvent, event->
+                {
+                    playClickedMedia(file.toURI().toString());
+                });
+                index++;
+            }
+        } else {
+            System.out.println("loadDragNdropfiles list is empty");
+        }
+    }
+    
+    public void clearPlayList()
+    {
+        selectedFile.delete();
+        currentIndex = 0;
+        index = 0;
+        playListVBox.getChildren().clear();
+        List<File> newPlaylist = new ArrayList<>(playlist);
+        newPlaylist.clear();
+        playlist = Collections.unmodifiableList(newPlaylist);
+    }
+    
+    public void delSong()
+    {
+        System.out.println("del song");
     }
 
     private void playNextMedia() 
@@ -232,6 +293,8 @@ public class PrimaryController implements Initializable
             }
         }
     }
+    
+ 
     
     //hangerő szabályzás görgővel
     public void setScrollVolume()
@@ -351,57 +414,3 @@ public class PrimaryController implements Initializable
     }
     
 }
-
-/*
-DRAG N DROP
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
-public class FileDragAndDropExample extends Application {
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        Label dropLabel = new Label("Drag and drop files here");
-        
-        StackPane root = new StackPane(dropLabel);
-        Scene scene = new Scene(root, 400, 300);
-
-        // Set up drag and drop functionality
-        root.setOnDragOver(event -> {
-            if (event.getGestureSource() != root && event.getDragboard().hasFiles()) {
-                event.acceptTransferModes(TransferMode.COPY);
-            }
-            event.consume();
-        });
-
-        root.setOnDragDropped(event -> {
-            Dragboard dragboard = event.getDragboard();
-            if (dragboard.hasFiles()) {
-                // Process the dropped files
-                dragboard.getFiles().forEach(file -> {
-                    System.out.println("File Name: " + file.getName());
-                    System.out.println("File Path: " + file.getAbsolutePath());
-                });
-                event.setDropCompleted(true);
-            } else {
-                event.setDropCompleted(false);
-            }
-            event.consume();
-        });
-
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("File Drag and Drop Example");
-        primaryStage.show();
-    }
-}
-
-
-*/

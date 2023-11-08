@@ -94,18 +94,28 @@
       </HBox>
       <ProgressBar fx:id="progressBar" prefHeight="13.0" prefWidth="796.0" progress="0.0" />
       
-      <HBox fx:id="controls" alignment="BASELINE_RIGHT" prefWidth="900.0" spacing="10.0">
+      <HBox fx:id="controls" alignment="CENTER_RIGHT" maxHeight="45.0" minHeight="45.0" prefHeight="45.0" prefWidth="900.0" spacing="10.0">
          <children>
-            <Button fx:id="playBtn" mnemonicParsing="false" onAction="#playMedia" prefWidth="40.0" text="▶" />
-            <Button fx:id="pauseBtn" mnemonicParsing="false" onAction="#pauseMedia" prefWidth="40.0" text="⏸▷" />
-            <Button fx:id="stopBtn" mnemonicParsing="false" onAction="#stopMedia" text="◼" />
-            <Button fx:id="reBtn" mnemonicParsing="false" onAction="#previousMedia" text="⏮" />
-            <Button fx:id="forwBtn" mnemonicParsing="false" onAction="#nextMedia" text="⏭" />
-            <Button mnemonicParsing="false" onAction="#loadMedia" text="Load" />
+            <HBox alignment="CENTER_LEFT" maxHeight="45.0" minHeight="30.0" prefHeight="45.0" prefWidth="430.0" spacing="10.0">
+               <children>
+                  <Button fx:id="delBtn" mnemonicParsing="false" onAction="#delSong" text="Del song">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="clearBtn" mnemonicParsing="false" onAction="#clearPlayList" text="Clear playlist" />
+               </children>
+            </HBox>
+            <Button fx:id="playBtn" minWidth="40.0" mnemonicParsing="false" onAction="#playMedia" prefWidth="40.0" text="▶" />
+            <Button fx:id="pauseBtn" minWidth="40.0" mnemonicParsing="false" onAction="#pauseMedia" prefWidth="40.0" text="⏸▷" />
+            <Button fx:id="stopBtn" minWidth="30.0" mnemonicParsing="false" onAction="#stopMedia" prefWidth="40.0" text="◼" />
+            <Button fx:id="reBtn" minWidth="30.0" mnemonicParsing="false" onAction="#previousMedia" prefWidth="40.0" text="⏮" />
+            <Button fx:id="forwBtn" minWidth="30.0" mnemonicParsing="false" onAction="#nextMedia" prefWidth="40.0" text="⏭" />
+            <Button minWidth="50.0" mnemonicParsing="false" onAction="#loadMedia" prefWidth="50.0" text="Load">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin></Button>
          </children>
-         <padding>
-            <Insets bottom="10.0" right="10.0" top="10.0" />
-         </padding>
       </HBox>
    </children>
 </VBox>
